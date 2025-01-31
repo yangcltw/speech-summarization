@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stt-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stt-service
+  template:
+    metadata:
+      labels:
+        app: stt-service
+    spec:
+      containers:
+        - name: stt-service
+          image: your-docker-repo/stt-service:latest
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stt-service
+spec:
+  selector:
+    app: stt-service
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP

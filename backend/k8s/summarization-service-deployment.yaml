@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: summarization-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: summarization-service
+  template:
+    metadata:
+      labels:
+        app: summarization-service
+    spec:
+      containers:
+        - name: summarization-service
+          image: your-docker-repo/summarization-service:latest
+          ports:
+            - containerPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: summarization-service
+spec:
+  selector:
+    app: summarization-service
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+  type: ClusterIP
